@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+<div class="wrap">
+<div ng-view="" autoscroll="" class="ng-scope"><div class="signup __lang__ ng-scope">
+    <section class="mainContent loaded" ng-class="{ loaded: mode.loaded }">
+        <h1 class="trialHeader"><img src="/sc-shared/img/AtlassianCloud-darkblue-xsmall.png" alt="Atlassian Cloud">
+            <span ng-show="evaluationDetails.trialWeek &amp;&amp; !evaluationDetails.ccRequired" class="long ng-scope" translate=""><span class="ng-scope">7-day trial – No credit card required</span></span>
+            <!--<a class="back-to-start" href="https://www.atlassian.com/ondemand/signup/"><span class="arrow">« </span> &lt;!&ndash; translate:  &ndash;&gt;<span translate="" class="ng-scope"><span class="ng-scope">Back to Config</span></span></a>-->
+        </h1>
+
+        <div class="signupForm">
+            <form novalidate="" name="signupForm" ondemand-form="" ng-submit="submitForm()" class="ng-pristine ng-valid">
+
+                <div class="dialog error ng-hide" ng-show="submitted &amp;&amp; signupForm.$invalid" style="margin-top:-15px">
+                    <p translate="" class="ng-scope"><span class="ng-scope">Please review the highlighted fields below and try again.</span></p>
+                </div>
+
+                <div class="clearfix">
+                    <div class="col1">
+                        <h2 translate="" class="ng-scope"><span class="ng-scope">Your Atlassian Cloud Site</span></h2>
+                        <div>
+                            <label for="accountName">
+                                <span class="validationSuccess ng-hide" ng-show="acctNameValidated"></span><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Choose Your Site Address</span></span>
+                                <div class="help">
+                                    <span class="required">*</span>
+                                    <div class="tooltip" style="display: none;">
+                                        <p translate="" class="ng-scope"><span class="ng-scope">Must be at least 6 characters, numbers and letters only. Once your site is provisioned, the site address cannot be changed.</span></p>
+                                    </div>
+                                </div>
+                            </label>
+                            <div>
+                                <span class="signupProtocol">https://</span><input id="accountName" type="text" name="accountName" class="siteAddress ng-pristine ng-valid ng-valid-pattern ng-valid-len ng-valid-unavailable" ng-model="accountName" ng-class="{ error: signupForm.accountName.$invalid }" ng-pattern="/^[a-zA-Z0-9-]+$/" ondemand-component="" ondemand-account-name="" atl-session-store="ondemand.signup.form" atl-autofocus="" tabindex="1"><span class="signupDomain">.atlassian.net</span>
+                            </div>
+
+                            <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="signupForm.accountName.$error.pattern || signupForm.accountName.$error.len" translate=""><span class="ng-scope">Site address must be at least 6 characters, letters and numbers only</span></p>
+                            <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="signupForm.accountName.$error.unavailable" translate=""><span class="ng-scope">This site address is already taken</span></p>
+                        </div>
+
+                        <!-- Email Address -->
+                        <div>
+                            <div class="readonly-email ng-hide" ng-show="loggedIn">
+                                <!-- use email from user so make it un-editable -->
+                                <label><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Email</span></span></label>
+                                <div class="ng-binding"></div>
+                                <!-- translate:  --><a class="switch-account ng-scope" href="" translate=""><span class="ng-scope">Sign in with a different Atlassian account</span></a>
+                                <input type="hidden" ng-model="email" class="ng-pristine ng-valid">
+                            </div>
+                            <div ng-show="!loggedIn" class="">
+                                <label for="email"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Email</span></span><span class="required">*</span></label>
+                                <input type="email" id="email" name="email" ng-model="email" ng-class="{error: signupForm.email.$invalid }" ondemand-component="" atlassian-account-checker="" account-exists="aidAccountExists" checker-enabled="useAIDForSignup" atl-session-store="ondemand.signup.form" tabindex="2" class="ng-isolate-scope ng-pristine ng-valid ng-valid-email">
+                            </div>
+
+                            <!-- ngIf: aidAccountExists && !loggedIn -->
+                            <!-- ngIf: signupForm.email.$error.email || signupForm.email.$error.hamlet -->
+                            <!-- ngIf: signupForm.email.$error.duplicate -->
+                            <!-- ngIf: signupForm.email.$error.hipchat -->
+                            <!-- ngIf: signupForm.email.$error.bitbucket -->
+                        </div>
+
+                        <!-- Admin Username -->
+                        <div>
+                            <label for="aod-username">
+                                <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Admin Username</span></span>
+                                <div class="help">
+                                    <span class="required">*</span>
+                                    <div class="tooltip" style="display: none;">
+                                        <!-- translate:  --><p translate="" class="ng-scope"><span class="ng-scope">You will use these details to log into your site.</span></p>
+                                    </div>
+                                </div>
+                            </label>
+                            <input type="text" id="aod-username" name="aodUser" class="adminUsername ng-pristine ng-valid" ng-class="{error: signupForm.aodUser.$invalid }" ng-model="aodUser" ondemand-component="" ondemand-user-name="" atl-session-store="ondemand.signup.form" tabindex="3">
+                            <!-- translate:  --><p ng-show="signupForm.aodUser.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please choose a username</span></p>
+                            <!-- translate:  --><p ng-show="signupForm.aodUser.$error.reserved" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">This username is reserved</span></p>
+                        </div>
+
+                        <!-- Admin Password -->
+                        <div>
+                            <label for="aod-password">
+                                <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Password</span></span>
+                                <span class="required">*</span>
+                            </label>
+                            <label class="show-password-toggle">
+                                <input type="checkbox" ng-model="showPassword" class="ng-pristine ng-valid">
+                                <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Show password</span></span>
+                            </label>
+                            <input ng-show="!showPassword" type="password" id="aod-password" name="aodPass" ng-model="aodPass" ng-class="{error: signupForm.aodPass.$invalid }" ondemand-component="" tabindex="4" class="ng-pristine ng-valid">
+                            <input ng-show="showPassword" type="text" id="aod-password" name="aodPass" ng-model="aodPass" ng-class="{error: signupForm.aodPass.$invalid }" ondemand-component="" tabindex="4" autocomplete="off" class="ng-pristine ng-valid ng-hide">
+                            <password-strength-indicator password="aodPass" class="ng-isolate-scope"><div ng-class="'passwordstrength passwordstrength-' + strengthClass" class="passwordstrength passwordstrength-none">
+                                <!-- translate:  --><span class="passwordstrength-message ng-scope ng-binding ng-hide" ng-show="show" translate=""><span class="ng-scope ng-binding">Password strength: </span></span>
+                            </div>
+                            </password-strength-indicator>
+                            <!-- translate:  --><p ng-show="signupForm.aodPass.$error.hamlet" class="errorMessage passwordErrorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter a valid password</span></p>
+                        </div>
+
+                        <!-- Bitbucket -->
+                        <section ng-form="" name="bitbucketForm" ondemand-bitbucket-form="" ng-show="hasBitbucket" class="ng-pristine ng-valid ng-hide">
+
+                            <!-- translate:  --><h2 translate="" class="ng-scope"><span class="ng-scope">Bitbucket Account</span></h2>
+
+                            <div class="dialog info bbDialog">
+                                <!-- translate:  --><h4 translate="" class="ng-scope"><span class="ng-scope">Create or link a Bitbucket account</span></h4>
+                                <p>
+                                    <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Enter your existing Bitbucket account, or choose a new username and we'll create one for you. We'll automatically link it to your site.</span></span>
+                                </p>
+                            </div>
+
+                            <br>
+
+                            <!-- Team Url -->
+                            <div>
+                                <label for="teamname">
+                                    <span class="validationSuccess ng-hide" ng-show="bitbucket.teamnameValidated &amp;&amp; !bitbucketForm.teamname.$invalid"></span>
+                                    <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Choose Your Bitbucket Team URL</span></span><span class="required">*</span>
+                                </label>
+                                <div>
+                                    <span class="signupProtocol bbSignupProtocol">https://bitbucket.org/</span><input type="text" id="teamname" name="teamname" class="siteAddress bbSiteAddress ng-pristine ng-valid" ng-model="bitbucket.teamname" ng-class="{error: bitbucketForm.teamname.$invalid }" atl-session-store="ondemand.signup.form" ondemand-component="" tabindex="5"></div>
+
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="bitbucketForm.teamname.$error.pattern" translate=""><span class="ng-scope">This team address can only contain letters, numbers or underscores.</span></p>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="bitbucketForm.teamname.$error.unique" translate=""><span class="ng-scope">Your bitbucket team name must be different than your username</span></p>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="bitbucketForm.teamname.$error.unavailable" translate=""><span class="ng-scope">This Bitbucket team name is unavailable</span></p>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="bitbucketForm.teamname.$error.hamlet" translate=""><span class="ng-scope">Please enter a valid Bitbucket team name</span></p>
+                            </div>
+
+                            <!-- bb username -->
+                            <div>
+                                <label for="username">
+                                    <span class="validationSuccess ng-hide" ng-show="bitbucket.usernameValidated &amp;&amp; !bitbucket.usernameInformation &amp;&amp; !bitbucketForm.username.$invalid"></span>
+                                    <span class="validationWarning ng-hide" ng-show="bitbucket.usernameInformation &amp;&amp; bitbucket.usernameValidated &amp;&amp; !bitbucketForm.username.$invalid"></span>
+                                    <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Choose Bitbucket Username</span></span><span class="required">*</span>
+                                </label>
+                                <input type="text" id="username" name="username" ng-model="bitbucket.username" ng-class="{error: bitbucketForm.username.$invalid}" atl-session-store="ondemand.signup.form" ondemand-component="" tabindex="5" class="ng-pristine ng-valid">
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="bitbucketForm.username.$error.pattern" translate=""><span class="ng-scope">This team address can only contain letters, numbers or underscores.</span></p>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="bitbucketForm.username.$error.unique" translate=""><span class="ng-scope">Your bitbucket user name must be different than your team name</span></p>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="bitbucketForm.username.$error.hamlet" translate=""><span class="ng-scope">Please enter a valid Bitbucket user name</span></p>
+                                <div class="dialog warning noTop ng-hide" ng-show="bitbucket.usernameInformation &amp;&amp; bitbucket.usernameValidated &amp;&amp; !bitbucketForm.username.$invalid">
+                                    <!-- translate:  --><p translate="" class="ng-scope"><span class="ng-scope">This Bitbucket username is already registered. If this isn't your Bitbucket account, please choose a different username.</span></p>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <!-- HipChat -->
+                        <section ng-show="hasHipChat" class="ng-hide">
+                            <!-- translate:  --><h2 translate="" class="ng-scope"><span class="ng-scope">HipChat Account</span></h2>
+
+                            <!-- HipChat Domain -->
+                            <div>
+                                <label for="hipChatDomain">
+                                    <span class="validationSuccess ng-hide" ng-show="hipchatDomainValidated &amp;&amp; !signupForm.hipChatDomain.$invalid"></span>
+                                    <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Choose Your HipChat Domain</span></span>
+                                    <span class="required">*</span>
+                                </label>
+                                <div>
+                                    <span class="signupProtocol">https://</span><input type="text" name="hipChatDomain" class="siteAddress ng-pristine ng-valid ng-valid-pattern" ng-model="hipChatDomain" ng-class="{error: signupForm.hipChatDomain.$invalid }" ng-pattern="/^[a-zA-Z0-9]+$/" ondemand-component="" ondemand-hipchat-domain="" atl-session-store="ondemand.signup.form" tabindex="5"><span class="signupDomain">.hipchat.com</span>
+                                </div>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="signupForm.hipChatDomain.$error.unavailable" translate=""><span class="ng-scope">This HipChat domain is not available</span></p>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="signupForm.hipChatDomain.$error.pattern || signupForm.hipChatDomain.$error.len" translate=""><span class="ng-scope">The HipChat domain must be at least 6 characters, letters and numbers only</span></p>
+                            </div>
+                        </section>
+
+
+                        <!-- Your Info -->
+                        <section>
+                            <!-- translate:  --><h2 translate="" class="ng-scope"><span class="ng-scope">Your Info</span></h2>
+
+                            <!-- First / Last Name -->
+                            <div class="split-cell">
+                                <div class="half left">
+                                    <label for="firstName"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">First Name</span></span><span class="required">*</span></label>
+                                    <input type="text" name="firstName" ng-model="firstName" id="firstName" ng-class="{error: signupForm.firstName.$invalid }" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="5" class="ng-pristine ng-valid">
+                                    <!-- translate:  --><p ng-show="signupForm.firstName.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter your first name</span></p>
+                                </div>
+
+                                <div class="half right">
+                                    <label for="lastName"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Last Name</span></span><span class="required">*</span></label>
+                                    <input type="text" name="lastName" ng-model="lastName" id="lastName" ng-class="{error: signupForm.lastName.$invalid }" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="6" class="ng-pristine ng-valid">
+                                    <!-- translate:  --><p ng-show="signupForm.lastName.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter your last name</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Company Name -->
+                            <div>
+                                <label for="company" class="clear"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Company Name</span></span><span class="required">*</span></label>
+                                <input type="text" id="company" name="company" ng-model="company" ng-class="{error: signupForm.company.$invalid }" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="7" class="ng-pristine ng-valid">
+                                <!-- translate:  --><p ng-show="signupForm.company.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter your company name</span></p>
+                            </div>
+
+                            <!-- Survey Question -->
+                            <div class="dropdown secondary usedProduct" ng-class="{ errorBorder: signupForm.usedProducts.$invalid }">
+                                <label for="usedProducts"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Have you used our products before?</span></span><span class="required">*</span></label><br>
+                                <div class="select2-container ng-pristine ng-valid" id="s2id_usedProduct" style="width: 380px;"><a href="javascript:void(0)" class="select2-choice" tabindex="-1">   <span class="select2-chosen" id="select2-chosen-1"></span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a><label for="s2id_autogen1" class="select2-offscreen"></label><input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-1" id="s2id_autogen1" tabindex="8"><div class="select2-drop select2-display-none dropdown select2-with-searchbox">   <div class="select2-search">       <label for="s2id_autogen1_search" class="select2-offscreen"></label>       <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-1" id="s2id_autogen1_search" placeholder="">   </div>   <ul class="select2-results" role="listbox" id="select2-results-1">   </ul></div></div><select ui-select2="{width:'380px', dropdownCssClass:'dropdown'}" ng-model="usedProducts" ng-change="productSurvey()" name="usedProducts" id="usedProduct" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="-1" class="ng-pristine ng-valid select2-offscreen" title="">
+                                <!-- translate:  --><option value="null" class="emptyOption ng-scope" translate=""><span class="ng-scope">Please select one</span></option>
+                                <!-- translate:  --><option value="yes" translate="" class="ng-scope"><span class="ng-scope">Yes</span></option>
+                                <!-- translate:  --><option value="no" translate="" class="ng-scope"><span class="ng-scope">No</span></option>
+                            </select>
+                            </div>
+
+                            <br>
+                            <!-- translate:  --><p id="usedProductError" class="errorMessage ng-scope ng-hide" ng-show="signupForm.usedProducts.$error.hamlet" translate=""><span class="ng-scope">Please select one</span></p>
+                        </section>
+                    </div>
+
+                    <div class="col2">
+
+                        <!-- translate:  --><h2 translate="" class="ng-scope"><span class="ng-scope">Contact Details</span></h2>
+
+                        <!-- Location -->
+                        <div ng-form="" name="locationForm" prefix="O" atl-location-selection="" class="ng-pristine ng-valid">
+
+                            <!-- Country Select -->
+                            <div>
+                                <label for="country"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Country</span></span><span class="required">*</span></label>
+                                <div class="dropdown" id="countrySelect"><input type="text" name="countryInput" ng-model="O.countryInput" ng-class="{ error: locationForm.countryInput.$invalid }" ondemand-component="" tabindex="9" ng-disabled="!O.countriesLoaded" class="ng-pristine ng-valid ng-scope"><div class="autocomplete-wrapper ng-scope ng-hide" ng-show="O.filtering">                 <ul id="autocomplete" class="country-autocomplete">                     <!-- ngRepeat: country in O.visibleCountries -->                 </ul>             </div></div>
+                                <input type="hidden" name="selectedCountry" ng-model="O.selectedCountry" ondemand-component="" class="ng-pristine ng-valid">
+                                <div class="clear"></div>
+                                <!-- translate:  --><p class="errorMessage ng-scope ng-hide" ng-show="locationForm.selectedCountry.$error.country || locationForm.countryInput.$error.hamlet" translate=""><span class="ng-scope">Please enter a valid country name</span></p>
+                                <div class="dialog error noTop ng-hide" ng-show="O.selectedCountry.usExportRestriction">
+                                    <!-- translate:  --><p translate="" class="ng-scope"><span class="ng-scope">Due to US export restrictions to this country, we are unable to process your request</span></p>
+                                </div>
+                                <div class="dialog error noTop ng-hide" ng-show="O.selectedCountry.countryIsoCode
+                                                &amp;&amp; !O.selectedCountry.marketplaceEnabled
+                                                &amp;&amp; !O.selectedCountry.usExportRestriction
+                                                &amp;&amp; hasMarketplaceAddons">
+                                    <!-- translate:  --><h4 translate="" class="ng-scope"><span class="ng-scope">Some of the add-ons you've chosen are not available in your country:</span></h4>
+                                    <ul>
+                                        <!-- ngRepeat: item in cart | filter:{ mpac: true } -->
+                                    </ul>
+                                    <!-- translate:  --><p translate="" class="ng-scope"><span class="ng-scope">To continue with your trial, you must remove the above add-on(s). </span><a ng-click="removeMarketplaceAddons()" class="ng-scope">Do this for me</a></p>
+                                </div>
+
+                                <div class="dialog success noTop ng-hide" ng-show="!O.selectedCountry.usExportRestriction &amp;&amp; !O.selectedCountry.marketplaceEnabled &amp;&amp;fixedMpacRestriction">
+                                    <!-- translate:  --><h4 translate="" class="ng-scope"><span class="ng-scope">Your trial will proceed with the following products:</span></h4>
+                                    <ul>
+                                        <!-- ngRepeat: item in cart | filter:{ mpac: false } --><li ng-repeat="item in cart | filter:{ mpac: false }" class="ng-scope ng-binding">JIRA</li><!-- end ngRepeat: item in cart | filter:{ mpac: false } -->
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div>
+                                <label for="address"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Address Line 1</span></span><span class="required">*</span></label>
+                                <input type="text" name="address" ng-model="O.address" ng-class="{ error: locationForm.address.$invalid }" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="10" class="ng-pristine ng-valid">
+                                <!-- translate:  --><p ng-show="locationForm.address.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter your address</span></p>
+                                <label for="address2"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Address Line 2</span></span></label>
+                                <input type="text" name="address2" ng-model="O.address2" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="11" class="ng-pristine ng-valid">
+                            </div>
+
+                            <!-- City -->
+                            <div>
+                                <label for="city"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">City</span></span><span class="required">*</span></label>
+                                <input type="text" name="city" ng-model="O.city" ng-class="{ error: locationForm.city.$invalid }" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="12" class="ng-pristine ng-valid">
+                                <!-- translate:  --><p ng-show="locationForm.city.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter your city</span></p>
+                            </div>
+
+
+                            <!-- State / ZIP -->
+                            <div class="clearfix">
+                                <div class="half left" id="requiresStates">
+                                    <div>
+                                        <label for="state"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">State / Province</span></span><span class="required ng-hide" ng-show="O.selectedCountry.requiresStates">*</span></label>
+                                        <input type="text" name="state" ng-model="O.state" ng-class="{ error: locationForm.state.$invalid }" atl-session-store="ondemand.signup.form" ondemand-component="" tabindex="13" class="ng-pristine ng-valid">
+                                        <!-- translate:  --><p ng-show="locationForm.state.$error.state || locationForm.state.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter a valid state / province abbreviation</span></p>
+                                    </div>
+                                </div>
+
+                                <div class="half right" id="requiresPostcode">
+                                    <label for="zip"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Zip / Postcode</span></span><span class="required ng-hide" ng-show="O.selectedCountry.requiresPostcode">*</span></label>
+                                    <input type="text" name="zip" ng-model="O.zip" ng-class="{ error: locationForm.zip.$invalid }" atl-session-store="ondemand.signup.form" ondemand-component="" tabindex="14" class="ng-pristine ng-valid">
+                                    <!-- translate:  --><p ng-show="locationForm.zip.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter a valid zip / postcode</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Tax ID -->
+                            <div ng-show="O.showTaxId" class="ng-hide">
+                                <div ng-switch="O.selectedCountry.taxInfo.taxIdLabel">
+                                    <!-- ngSwitchWhen: VAT Number -->
+                                    <!-- ngSwitchWhen: ABN -->
+                                    <!-- ngSwitchWhen: Organization Number -->
+                                    <!-- ngSwitchDefault:  --><label for="taxID" ng-switch-default="" class="ng-scope"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Tax ID</span></span></label>
+                                </div>
+                                <input type="text" ng-class="{ error: locationForm.taxID.$invalid }" name="taxID" ng-model="O.taxID" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="15" class="ng-pristine ng-valid">
+                                <p ng-show="locationForm.taxID.$error.hamlet" class="errorMessage ng-hide" ng-switch="O.selectedCountry.taxInfo.taxIdLabel">
+                                    <!-- ngSwitchWhen: Vat Number -->
+                                    <!-- ngSwitchWhen: ABN -->
+                                    <!-- ngSwitchWhen: Organization Number -->
+                                    <!-- ngSwitchDefault:  --><span ng-switch-default="" class="ng-scope"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Please enter a valid Tax ID</span></span></span>
+                                </p>
+                                <p class="taxMessage" ng-switch="O.selectedCountry.taxInfo.taxIdLabel">
+                                    <!-- ngSwitchWhen: VAT Number -->
+                                    <!-- ngSwitchWhen: ABN -->
+                                    <!-- ngSwitchWhen: Organization Number -->
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card -->
+                        <section class="creditCard ng-pristine ng-valid ng-hide" ng-form="" name="creditCardForm" atl-credit-card="" ng-show="evaluationDetails.ccRequired">
+                            <!-- translate:  --><h2 translate="" class="ng-scope"><span class="ng-scope">Credit Card Details</span></h2>
+                            <div class="creditCardInfo">
+
+                                <!-- Creditcard Number and icons -->
+                                <div class="ccWrap clearfix">
+                                    <label for="gatewayCardNumber" class="cardNumberLabel"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Card Number</span></span><span class="required">*</span></label>
+                                    <div class="ccLogoWrap"><!-- ngRepeat: card in ccards --><span ng-repeat="card in ccards" ng-class="card.state" class="ng-scope mastercard"></span><!-- end ngRepeat: card in ccards --><span ng-repeat="card in ccards" ng-class="card.state" class="ng-scope visa"></span><!-- end ngRepeat: card in ccards --><span ng-repeat="card in ccards" ng-class="card.state" class="ng-scope amex"></span><!-- end ngRepeat: card in ccards --></div>
+                                    <input type="text" id="gatewayCardNumber" name="gatewayCardNumber" ng-model="gatewayCardNumber" ng-class="{error: creditCardForm.gatewayCardNumber.$invalid }" autocomplete="off" tns-gateway-field="gatewayCardNumber,gatewayCardScheme" ondemand-component="" tabindex="16" class="ng-pristine ng-valid">
+                                    <input type="hidden" id="gatewayCardScheme" name="gatewayCardScheme" ng-model="gatewayCardScheme" class="ng-pristine ng-valid">
+                                    <!-- translate:  --><p ng-show="creditCardForm.gatewayCardNumber.$error.tns || creditCardForm.gatewayCardScheme.$error.tns || creditCardForm.gatewayCardNumber.$error.hamlet || creditCardForm.gatewayCardScheme.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter a valid card number</span></p>
+                                    <!-- translate:  --><p ng-show="creditCardForm.gatewayCardNumber.$error.unsupported" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">This card type is not accepted</span></p>
+                                </div>
+
+                                <!-- Expiration month and year -->
+                                <div class="ccDateWrap">
+                                    <label for="date" class="expiration"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Expiration Date</span></span><span class="required">*</span></label>
+                                    <div>
+                                        <input type="text" name="gatewayCardExpiryDateMonth" class="ccMonth ng-pristine ng-valid" placeholder="MM" maxlength="2" ng-model="gatewayCardExpiryDateMonth" ng-class="{error: creditCardForm.gatewayCardExpiryDateMonth.$invalid || creditCardForm.gatewayCardExpiryDateYear.$invalid }" tns-gateway-field="gatewayCardExpiryDateMonth" ondemand-component="" tabindex="17" atl-session-store="ondemand.signup.form">
+                                        <input type="text" name="gatewayCardExpiryDateYear" class="ccYear ng-pristine ng-valid" placeholder="YY" maxlength="2" ng-model="gatewayCardExpiryDateYear" ng-class="{error: creditCardForm.gatewayCardExpiryDateMonth.$invalid || creditCardForm.gatewayCardExpiryDateYear.$invalid }" tns-gateway-field="gatewayCardExpiryDateYear" ondemand-component="" tabindex="18" atl-session-store="ondemand.signup.form">
+                                    </div>
+                                    <!-- translate:  --><p ng-show="creditCardForm.gatewayCardExpiryDateMonth.$error.month
+                                                || creditCardForm.gatewayCardExpiryDateYear.$error.year
+                                                || creditCardForm.gatewayCardExpiryDateMonth.$error.hamlet
+                                                || creditCardForm.gatewayCardExpiryDateYear.$error.hamlet
+                                                || creditCardForm.gatewayCardExpiryDateMonth.$error.tns
+                                                || creditCardForm.gatewayCardExpiryDateYear.$error.tns" class="errorMessage mmyy ng-scope ng-hide" translate=""><span class="ng-scope">Please enter a valid date (MM/YY)</span></p>
+                                </div>
+
+                                <!-- Cardholder's name -->
+                                <div class="ccNameWrap">
+                                    <label for="gatewayCardName"><!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">Name on Card</span></span><span class="required">*</span></label>
+                                    <input type="text" name="gatewayCardName" ng-model="gatewayCardName" ng-class="{ error: creditCardForm.gatewayCardName.$invalid }" ondemand-component="" atl-session-store="ondemand.signup.form" tabindex="19" class="ng-pristine ng-valid">
+                                    <!-- translate:  --><p ng-show="creditCardForm.gatewayCardName.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please enter the cardholder's name</span></p>
+                                </div>
+
+                                <div class="price rate circular clear ng-binding">
+                                    <sup>$</sup>10<!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">/mo</span></span>
+                                    <!-- ngRepeat: item in roleBasedProducts -->
+                                </div>
+                                <div class="rate"><!-- translate:  --><p translate="" class="ng-scope"><span class="ng-scope">After free trial</span></p></div>
+                            </div>
+                        </section>
+
+                        <!-- Trial Dialog -->
+                        <div class="dialog small ng-hide" ng-show="evaluationDetails.ccRequired">
+                            <!-- translate:  --><p translate="" class="ng-scope"><span class="ng-scope">You can cancel your trial any time before </span><strong class="ng-scope ng-binding">April 6, 2015</strong><span class="ng-scope">. We'll email you a reminder a few days beforehand.</span></p>
+                        </div>
+
+                        <!-- EULA Agreement checkbox -->
+                        <div class="consent">
+                            <input type="checkbox" ng-model="eula" name="eula" id="eula" ondemand-component="" tabindex="20" atl-session-store="ondemand.signup.form" class="ng-pristine ng-valid">
+                            <label class="clearfix eula" for="eula">
+                                <!-- translate:  --><div ng-show="!hasAddons" translate="" class="ng-scope"><span class="ng-scope">I agree to the terms and conditions of the </span><a target="_blank" href="https://www.atlassian.com/legal/customer-agreement" class="ng-scope">Atlassian Customer Agreement</a><span class="ng-scope">.</span></div>
+                                <!-- translate:  --><div ng-show="hasAddons" translate="" class="ng-scope ng-hide"><span class="ng-scope">I agree to the terms and conditions of the </span><a target="_blank" href="https://www.atlassian.com/legal/customer-agreement" class="ng-scope">Atlassian Customer Agreement</a><span class="ng-scope">
+                                    and to the </span><a target="_blank" href="https://www.atlassian.com/licensing/marketplace/permissions" class="ng-scope">permissions being granted to add-ons</a><span class="ng-scope">.</span></div>
+                                <div ng-show="eulas.length > 0" class="third-party ng-hide">
+                                    <!-- translate:  --><span translate="" class="ng-scope"><span class="ng-scope">I also agree the the terms of these third-party products:</span></span>
+                                    <ul>
+                                        <!-- ngRepeat: eula in eulas -->
+                                    </ul>
+                                </div>
+                            </label>
+                            <!-- translate:  --><p ng-show="signupForm.eula.$error.eula || signupForm.eula.$error.hamlet" class="errorMessage ng-scope ng-hide" translate=""><span class="ng-scope">Please confirm that you agree to the Customer Agreement</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit">
+                    <img src="/sc-shared/img/ajax-loader-small.gif" ng-show="processing" class="spinner ng-hide">
+                    <button type="submit" class="wac-button cta" ng-class="{
+                            processing: processing,
+                            disabled: (O.selectedCountry.countryIsoCode &amp;&amp; !O.selectedCountry.marketplaceEnabled &amp;&amp; !O.selectedCountry.usExportRestriction &amp;&amp; hasMarketplaceAddons)
+                                || O.selectedCountry.usExportRestriction
+                                || aidAccountExists &amp;&amp; !loggedIn
+                        }" ng-disabled="processing
+                            || (O.selectedCountry.countryIsoCode
+                                &amp;&amp; !O.selectedCountry.marketplaceEnabled
+                                &amp;&amp; !O.selectedCountry.usExportRestriction
+                                &amp;&amp; hasMarketplaceAddons)
+                            || O.selectedCountry.usExportRestriction
+                            || aidAccountExists &amp;&amp; !loggedIn" tabindex="21">
+                        <!-- translate:  --><span class="buttonTxt ng-scope" ng-show="!processing" translate=""><span class="ng-scope">Start Trial</span></span>
+                        <!-- translate:  --><span class="buttonTxt ng-scope ng-hide" ng-show="processing" translate=""><span class="ng-scope">Processing</span></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+</div>
+</body>
+</html>
+
+С
