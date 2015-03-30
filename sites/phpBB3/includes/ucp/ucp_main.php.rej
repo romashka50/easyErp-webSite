@@ -1,0 +1,36 @@
+--- ./includes/ucp/ucp_main.php	2012-01-01 19:00:17.000000000 +0400
++++ ../phpBB-embed-3.0.10/includes/ucp/ucp_main.php	2011-07-17 14:49:13.000000000 +0400
+@@ -198,7 +198,16 @@
+ 
+ 			case 'subscribed':
+ 
++				//VB
++				if (!defined('PHPBB_API_EMBEDDED'))
++				{
+ 				include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
++				}
++				else
++				{
++				include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
++				}
++				//\VB
+ 
+ 				$user->add_lang('viewforum');
+ 
+@@ -383,7 +392,16 @@
+ 					break;
+ 				}
+ 
++				//VB
++				if (!defined('PHPBB_API_EMBEDDED'))
++				{
+ 				include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
++				}
++				else
++				{
++				include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
++				}
++				//\VB
+ 
+ 				$user->add_lang('viewforum');
+ 

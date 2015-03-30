@@ -1,0 +1,15 @@
+--- ./includes/functions_display.php	2012-01-01 19:00:17.000000000 +0400
++++ ../phpBB-embed-3.0.10/includes/functions_display.php	2012-01-05 13:10:31.000000000 +0400
+@@ -278,6 +278,12 @@
+ 	if ($mark_read == 'forums')
+ 	{
+ 		$redirect = build_url(array('mark', 'hash'));
++    //VB
++		if (defined('PHPBB_API_EMBEDDED'))
++		{
++			$redirect = _phpbbforum_replace_urls($redirect);
++		}
++		//VB
+ 		$token = request_var('hash', '');
+ 		if (check_link_hash($token, 'global'))
+ 		{

@@ -1,0 +1,16 @@
+--- ./includes/mcp/mcp_reports.php	2012-01-01 19:00:17.000000000 +0400
++++ ../phpBB-embed-3.0.10/includes/mcp/mcp_reports.php	2012-01-05 13:36:15.000000000 +0400
+@@ -35,7 +35,12 @@
+ 	{
+ 		global $auth, $db, $user, $template, $cache;
+ 		global $config, $phpbb_root_path, $phpEx, $action;
+-
++    //VB
++		if (defined('PHPBB_API_EMBEDDED'))
++		{
++			$action =_phpbbforum_get_cp_action_request($action);
++		}
++		//\VB
+ 		include_once($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
+ 
+ 		$forum_id = request_var('f', 0);

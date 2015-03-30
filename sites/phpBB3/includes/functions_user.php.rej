@@ -1,0 +1,56 @@
+--- ./includes/functions_user.php	2012-01-01 19:00:17.000000000 +0400
++++ ../phpBB-embed-3.0.10/includes/functions_user.php	2011-07-17 14:25:22.000000000 +0400
+@@ -3041,8 +3365,17 @@
+ 	// Re-cache moderators
+ 	if (!function_exists('cache_moderators'))
+ 	{
++		//VB
++		if (defined('PHPBB_DRUPAL_MODULE')) 
++		{
++		include_once($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
++		}
++		else
++		{
+ 		include($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
+ 	}
++		//\VB
++	}
+ 
+ 	cache_moderators();
+ 
+@@ -3822,8 +4155,17 @@
+ 		if (!function_exists('cache_moderators'))
+ 		{
+ 			global $phpbb_root_path, $phpEx;
++			//VB
++			if (defined('PHPBB_DRUPAL_MODULE')) 
++			{
++			include_once($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
++			}
++			else
++			{
+ 			include($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
+ 		}
++			//\VB
++		}
+ 		cache_moderators();
+ 	}
+ 
+@@ -3832,8 +4174,17 @@
+ 		if (!function_exists('update_foes'))
+ 		{
+ 			global $phpbb_root_path, $phpEx;
++			//VB
++			if (defined('PHPBB_DRUPAL_MODULE')) 
++			{
++			include_once($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
++			}
++			else
++			{
+ 			include($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
+ 		}
++			//\VB
++		}
+ 		update_foes(array($group_id));
+ 	}
+ }

@@ -1,0 +1,16 @@
+--- ./includes/mcp/mcp_forum.php	2012-01-01 19:00:17.000000000 +0400
++++ ../phpBB-embed-3.0.10/includes/mcp/mcp_forum.php	2011-07-17 14:34:23.000000000 +0400
+@@ -23,7 +23,12 @@
+ {
+ 	global $template, $db, $user, $auth, $cache, $module;
+ 	global $phpEx, $phpbb_root_path, $config;
+-
++	//VB
++	if (defined('PHPBB_API_EMBEDDED'))
++	{
++		$action =_phpbbforum_get_cp_action_request($action);
++	}
++	//\VB
+ 	$user->add_lang(array('viewtopic', 'viewforum'));
+ 
+ 	include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
